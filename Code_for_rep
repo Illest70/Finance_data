@@ -1,0 +1,98 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[10]:
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Expanded dataset with stock markets, sales, profit, open, and close prices
+data = {
+    'Stock Market': ['NYSE', 'NASDAQ', 'LSE', 'TSE'],
+    'Category': ['A', 'B', 'C', 'D'],
+    'Sales': [150, 200, 300, 400],
+    'Profit': [50, 80, 100, 120],
+    'Open Price': [135, 145, 155, 165],
+    'Close Price': [140, 150, 160, 170],
+    'Growth_Rate': [10, 15, 20, 25],
+    'Market_Share': [25, 35, 20, 20]
+}
+df = pd.DataFrame(data)
+sns.set_palette("Set2")
+# 1. Bar chart for Sales (with Stock Market names)
+plt.figure(figsize=(8, 6))
+sns.barplot(x='Stock Market', y='Sales', data=df, palette='viridis', dodge=False)
+plt.title("Bar Chart - Sales by Stock Market", fontsize=14)
+plt.xlabel("Stock Market", fontsize=12)
+plt.ylabel("Sales", fontsize=12)
+for i, value in enumerate(df['Sales']):
+    plt.text(i, value + 10, str(value), ha='center', fontsize=10)  # Adding annotations
+plt.show()
+
+# 2. Line chart comparing Open and Close Prices
+plt.figure(figsize=(10, 6))
+plt.plot(df['Stock Market'], df['Open Price'], marker='o', linestyle='-', color='blue', label="Open Price")
+plt.plot(df['Stock Market'], df['Close Price'], marker='o', linestyle='--', color='green', label="Close Price")
+plt.title("Line Chart - Open vs Close Prices by Stock Market", fontsize=14)
+plt.xlabel("Stock Market", fontsize=12)
+plt.ylabel("Price", fontsize=12)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+# Set a color palette
+
+
+# 1. Bar chart for Sales
+
+plt.figure(figsize=(8, 6))
+sns.barplot(x='Category', y='Sales', data=df, hue='Category', palette='viridis', dodge=False)  # hue assigned for color distinction
+plt.title("Bar Chart - Sales by Category", fontsize=14)
+plt.xlabel("Category", fontsize=12)
+plt.ylabel("Sales", fontsize=12)
+for i, value in enumerate(df['Sales']):
+    plt.text(i, value + 10, str(value), ha='center', fontsize=10)  # Adding annotations for clarity
+plt.show()
+
+
+# 2. Line chart for Growth Rate
+plt.figure(figsize=(8, 6))
+plt.plot(df['Category'], df['Growth_Rate'], marker='o', linestyle='--', color='blue', label="Growth Rate")
+plt.title("Line Chart - Growth Rate by Category", fontsize=14)
+plt.xlabel("Category", fontsize=12)
+plt.ylabel("Growth Rate (%)", fontsize=12)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# 3. Scatter plot for Profit vs Sales
+plt.figure(figsize=(8, 6))
+plt.scatter(df['Sales'], df['Profit'], color='red', s=100, edgecolors='black', alpha=0.8)
+plt.title("Scatter Plot - Profit vs Sales", fontsize=14)
+plt.xlabel("Sales", fontsize=12)
+plt.ylabel("Profit", fontsize=12)
+for i, txt in enumerate(df['Category']):
+    plt.annotate(txt, (df['Sales'][i], df['Profit'][i]), fontsize=9, textcoords="offset points", xytext=(-10,10))
+plt.show()
+
+# 4. Pie chart for Market Share
+plt.figure(figsize=(8, 6))
+colors = sns.color_palette("pastel")[0:4]
+plt.pie(df['Market_Share'], labels=df['Category'], autopct='%1.1f%%', colors=colors, startangle=140)
+plt.title("Pie Chart - Market Share by Category", fontsize=14)
+plt.show()
+
+# 5. Heatmap for correlations between numerical variables
+plt.figure(figsize=(8, 6))
+correlation = df[['Sales', 'Profit', 'Growth_Rate', 'Market_Share']].corr()
+sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title("Heatmap - Correlation Matrix", fontsize=14)
+plt.show()
+
+
+# In[ ]:
+
+
+
+
